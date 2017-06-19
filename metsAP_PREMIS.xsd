@@ -1,0 +1,1431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+via XMLSpy/oxygen. editor: Ray Denenberg, Library of Congress; rden@loc.gov   
+ 
+                             *********************************************************************************************
+                             *                                                                                           *                           
+                             *                                   PREMIS                                                  * 
+                             *                         Preservation Metadata Schema                                      *
+                             *                                                                                           *       
+                             *                                  VERSION 2.3                                              *
+                             *                                 August 4, 2014                                            *
+                             *                                                                                           *                     
+                             *                     (supercedes version 2.2 of May 15, 2012)                              *
+                             *                                                                                           *
+                             *                                                                                           *                       
+                             *********************************************************************************************
+
+
+
+**********************************************************************************************************************************
+Changes in version 2.3:
+
+New type 'stringPlusAuthority', references new attribute group 'authorityAttributeGroup' (both at the bottom).
+'stringPlusAuthority' is xsd:string with the three new attributes: 'authority', 'authorityURI', and 'valueURI'
+
+61 elements, previously of type xsd:string, are now of type 'stringPlusAuthority'.  They have been separated out 
+from the list of element declarations and are listed together, under "****** stringPlusAuthority type element declarations"
+
+In addition the two elements of type 'countryCode' are similarly separated out and listed together. The 'countryCode' definition is changed, 
+to accomodate the authority attributes.  it now has a base of 'stringPlusAuthority' rather than xsd:string, and it is an extension rather than
+a restriction (hence a complex rather than simple type).
+
+*************************************************************************************************************************************   
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink"
+	xmlns:premis="info:lc/xmlns/premis-v2" targetNamespace="info:lc/xmlns/premis-v2"
+	elementFormDefault="qualified" attributeFormDefault="unqualified" id="premis">
+	<!--   
+ Import XLink-->
+	<xsd:import namespace="http://www.w3.org/1999/xlink"
+		schemaLocation="http://www.loc.gov/standards/xlink/xlink.xsd"/>
+	<!-- 	
+
+An instance is 
+(1) One or more of <object>, <event>, <agent>, <rights> all wrapped within a <premis> container; or
+(2) any one of  <object>, <event>, <agent>, <rights>  by itself. 
+
+Thus the root element is one of the following:  <premis>, <object>, <event>, <agent>, <rights> 
+
+********************************************************************************************
+*                                                                                          *
+*                            Root element declarations                                     *
+*                                                                                          *
+********************************************************************************************
+
+-->
+	<xsd:element name="premis" type="premis:premisComplexType"/>
+	<xsd:element name="object" type="premis:objectComplexType"/>
+	<xsd:element name="event" type="premis:eventComplexType"/>
+	<xsd:element name="agent" type="premis:agentComplexType"/>
+	<xsd:element name="rights" type="premis:rightsComplexType"/>
+	<!-- 	
+
+
+*************************************************************************************************
+*                                                                                               *
+*                          definitions of complex types for the root elements                   *
+*                                                                                               *
+*************************************************************************************************
+
+************************************ premisComplexType 
+-->
+	<xsd:complexType name="premisComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:object" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:event" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:agent" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:rights" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="version" type="premis:versionSimpleType" use="required"/>
+	</xsd:complexType>
+	<!-- 	
+
+*************************************************************************************************
+*                                                                                               *
+*   objectComplexType  (and the three major <object>  category definitions)                     *
+*                                                                                               *
+*************************************************************************************************
+
+-->
+	<xsd:complexType name="objectComplexType" abstract="true"/>
+	<!--
+***************  
+The three "types":  'file', 'representation', and 'bitstream'. These are the values for the xsi:type attribute in an instance. 
+For an object of type file: <object xsi:type="premis:file">  will mean that the complexType "file" will be validated. 
+For an object of type representation: <object xsi:type="premis:representation">  will mean that the complexType "representation" will be validated. 
+For an object of type bitstream: <object xsi:type="premis:bitstream">  will mean that the complexType "bitstream" will be validated. 
+******************
+
+******* file
+-->
+	<xsd:complexType name="file">
+		<xsd:complexContent>
+			<xsd:extension base="premis:objectComplexType">
+				<xsd:sequence>
+					<xsd:element ref="premis:objectIdentifier" maxOccurs="unbounded"/>
+					<!-- Data dictionary lists objectCategory here, values:  'file', 'representation', or  'bitstream'. It is omitted and instead the mechanism described in the preceding comment is used to signify the category of the object. Using this mechanism allows for the specific definition, corresponding to the category, to be validated. In the older version there was a single defintion so specific vaidation based on category was not possible.  -->
+					<xsd:element ref="premis:preservationLevel" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:significantProperties" minOccurs="0"
+						maxOccurs="unbounded"/>
+					<xsd:element ref="premis:objectCharacteristics" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:originalName" minOccurs="0"/>
+					<xsd:element ref="premis:storage" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:environment" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:signatureInformation" minOccurs="0"
+						maxOccurs="unbounded"/>
+					<xsd:element ref="premis:relationship" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:linkingEventIdentifier" minOccurs="0"
+						maxOccurs="unbounded"/>
+					<xsd:element ref="premis:linkingIntellectualEntityIdentifier" minOccurs="0"
+						maxOccurs="unbounded"/>
+					<xsd:element ref="premis:linkingRightsStatementIdentifier" minOccurs="0"
+						maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="xmlID" type="xsd:ID"/>
+				<xsd:attribute name="version" type="premis:versionSimpleType"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!--
+*********** representation
+  	-->
+	<xsd:complexType name="representation">
+		<xsd:complexContent>
+			<xsd:extension base="premis:objectComplexType">
+				<xsd:sequence>
+					<xsd:element ref="premis:objectIdentifier" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:preservationLevel" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:significantProperties" minOccurs="0"
+						maxOccurs="unbounded"/>
+					<xsd:element ref="premis:originalName" minOccurs="0"/>
+					<xsd:element ref="premis:environment" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:relationship" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:linkingEventIdentifier" minOccurs="0"
+						maxOccurs="unbounded"/>
+					<xsd:element ref="premis:linkingIntellectualEntityIdentifier" minOccurs="0"
+						maxOccurs="unbounded"/>
+					<xsd:element ref="premis:linkingRightsStatementIdentifier" minOccurs="0"
+						maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="xmlID" type="xsd:ID"/>
+				<xsd:attribute name="version" type="premis:versionSimpleType"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!--
+*********** bitstream
+  	-->
+	<xsd:complexType name="bitstream">
+		<xsd:complexContent>
+			<xsd:extension base="premis:objectComplexType">
+				<xsd:sequence>
+					<xsd:element ref="premis:objectIdentifier" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:significantProperties" minOccurs="0"
+						maxOccurs="unbounded"/>
+					<xsd:element ref="premis:objectCharacteristics" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:storage" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:environment" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:signatureInformation" minOccurs="0"
+						maxOccurs="unbounded"/>
+					<xsd:element ref="premis:relationship" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element ref="premis:linkingEventIdentifier" minOccurs="0"
+						maxOccurs="unbounded"/>
+					<xsd:element ref="premis:linkingIntellectualEntityIdentifier" minOccurs="0"
+						maxOccurs="unbounded"/>
+					<xsd:element ref="premis:linkingRightsStatementIdentifier" minOccurs="0"
+						maxOccurs="unbounded"/>
+				</xsd:sequence>
+				<xsd:attribute name="xmlID" type="xsd:ID"/>
+				<xsd:attribute name="version" type="premis:versionSimpleType"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<!-- 	
+
+************************************eventComplexType
+
+-->
+	<xsd:complexType name="eventComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:eventIdentifier"/>
+			<xsd:element ref="premis:eventType"/>
+			<xsd:element ref="premis:eventDateTime"/>
+			<xsd:element ref="premis:eventDetail" minOccurs="0"/>
+			<xsd:element ref="premis:eventOutcomeInformation" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:linkingAgentIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:linkingObjectIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="xmlID" type="xsd:ID"/>
+		<xsd:attribute name="version" type="premis:versionSimpleType"/>
+	</xsd:complexType>
+	<!-- 	
+                      
+**************************  agentComplexType
+-->
+	<xsd:complexType name="agentComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:agentIdentifier" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:agentName" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:agentType" minOccurs="0"/>
+			<xsd:element ref="premis:agentNote" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:agentExtension" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:linkingEventIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:linkingRightsStatementIdentifier" minOccurs="0"
+				maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="xmlID" type="xsd:ID"/>
+		<xsd:attribute name="version" type="premis:versionSimpleType"/>
+	</xsd:complexType>
+	<!-- 	
+
+******************* rightsComplexType
+
+-->
+	<xsd:complexType name="rightsComplexType">
+		<xsd:choice maxOccurs="unbounded">
+			<xsd:element ref="premis:rightsStatement"/>
+			<xsd:element ref="premis:rightsExtension"/>
+			<xsd:element ref="premis:mdSec"/>
+		</xsd:choice>
+		<xsd:attribute name="xmlID" type="xsd:ID"/>
+		<xsd:attribute name="version" type="premis:versionSimpleType"/>
+	</xsd:complexType>
+	<!--
+
+********************************************************************************************
+********************************************************************************************
+*                                                                                          *
+*                     subsidiary  complexType definitions                                  *
+*                                                                                          *
+*********************************************************************************************
+*********************************************************************************************
+-->
+	<!--
+******* agentIdentifierComplexType
+-->
+	<xsd:complexType name="agentIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:agentIdentifierType"/>
+			<xsd:element ref="premis:agentIdentifierValue"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--
+****************contentLocationComplexType
+-->
+	<xsd:complexType name="contentLocationComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:contentLocationType"/>
+			<xsd:element ref="premis:contentLocationValue"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--
+******** copyrightDocumentationIdentifierComplexType  
+-->
+	<xsd:complexType name="copyrightDocumentationIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:copyrightDocumentationIdentifierType"/>
+			<xsd:element ref="premis:copyrightDocumentationIdentifierValue"/>
+			<xsd:element ref="premis:copyrightDocumentationRole" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+******** copyrightInformationComplexType
+-->
+	<xsd:complexType name="copyrightInformationComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:copyrightStatus"/>
+			<xsd:element ref="premis:copyrightJurisdiction"/>
+			<xsd:element ref="premis:copyrightStatusDeterminationDate" minOccurs="0"/>
+			<xsd:element ref="premis:copyrightNote" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:copyrightDocumentationIdentifier" minOccurs="0"
+				maxOccurs="unbounded"/>
+			<xsd:element ref="premis:copyrightApplicableDates" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+****************creatingApplicationComplexType
+-->
+	<xsd:complexType name="creatingApplicationComplexType">
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element ref="premis:creatingApplicationName"/>
+				<xsd:element ref="premis:creatingApplicationVersion" minOccurs="0"/>
+				<xsd:element ref="premis:dateCreatedByApplication" minOccurs="0"/>
+				<xsd:element ref="premis:creatingApplicationExtension" minOccurs="0"
+					maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element ref="premis:creatingApplicationVersion"/>
+				<xsd:element ref="premis:dateCreatedByApplication" minOccurs="0"/>
+				<xsd:element ref="premis:creatingApplicationExtension" minOccurs="0"
+					maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element ref="premis:dateCreatedByApplication"/>
+				<xsd:element ref="premis:creatingApplicationExtension" minOccurs="0"
+					maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<!-- -->
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="premis:creatingApplicationExtension"/>
+				<xsd:element ref="premis:mdSec"/>
+			</xsd:choice>
+			<!-- -->
+		</xsd:choice>
+		<!-- All of the  elements individually are optional, but at least one must occur.
+			And those occuring must occur in the specified order. And some are non-repeatable. 
+			XML schema doesn't provide an easy way to define such a construct.
+			If  sequencing and non-repeatability didn't apply,  
+			you could use CHOICE minOccurs="1" maxOccurs="unbounded". 
+			Or if the requirement that at least one must occur didn't apply you could use 
+			a single sequence all with minOccurs="0". 
+			But given these constraints the above structure is necessary. -->
+	</xsd:complexType>
+	<!--  
+****************dependencyComplexType
+                                   See comment for "creatingApplicationComplexType"
+-->
+	<xsd:complexType name="dependencyComplexType">
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element ref="premis:dependencyName" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:dependencyIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:element ref="premis:dependencyIdentifier" maxOccurs="unbounded"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<!--  
+****************dependencyIdentifierComplexType
+-->
+	<xsd:complexType name="dependencyIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:dependencyIdentifierType"/>
+			<xsd:element ref="premis:dependencyIdentifierValue"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  
+****************environmentComplexType
+                                   See comment for "creatingApplicationComplexType"
+-->
+	<xsd:complexType name="environmentComplexType">
+		<xsd:choice>
+			<!-- -->
+			<xsd:sequence>
+				<xsd:element ref="premis:environmentCharacteristic"/>
+				<xsd:element ref="premis:environmentPurpose" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:environmentNote" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:dependency" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:software" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:hardware" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:environmentExtension" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<!-- -->
+			<xsd:sequence>
+				<xsd:element ref="premis:environmentPurpose" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:environmentNote" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:dependency" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:software" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:hardware" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:environmentExtension" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<!-- -->
+			<xsd:sequence>
+				<xsd:element ref="premis:environmentNote" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:dependency" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:software" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:hardware" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:environmentExtension" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<!-- -->
+			<xsd:sequence>
+				<xsd:element ref="premis:dependency" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:software" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:hardware" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:environmentExtension" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<!-- -->
+			<xsd:sequence>
+				<xsd:element ref="premis:software" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:hardware" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:environmentExtension" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<!-- -->
+			<xsd:sequence>
+				<xsd:element ref="premis:hardware" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:environmentExtension" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<!-- -->
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="premis:environmentExtension"/>
+				<xsd:element ref="premis:mdSec"/>
+			</xsd:choice>
+			<!-- -->
+		</xsd:choice>
+	</xsd:complexType>
+	<!--
+   ****eventIdentifierComplexType
+-->
+	<xsd:complexType name="eventIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:eventIdentifierType"/>
+			<xsd:element ref="premis:eventIdentifierValue"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--
+   ****eventOutcomeDetailComplexType
+                                   See comment for "creatingApplicationComplexType"
+-->
+	<xsd:complexType name="eventOutcomeDetailComplexType">
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element ref="premis:eventOutcomeDetailNote"/>
+				<xsd:element ref="premis:eventOutcomeDetailExtension" minOccurs="0"
+					maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<!---->
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="premis:eventOutcomeDetailExtension"/>
+				<xsd:element ref="premis:mdSec"/>
+			</xsd:choice>
+			<!-- -->
+		</xsd:choice>
+	</xsd:complexType>
+	<!--
+   ****eventOutcomeInformationComplexType
+                                   See comment for "creatingApplicationComplexType"
+-->
+	<xsd:complexType name="eventOutcomeInformationComplexType">
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element ref="premis:eventOutcome"/>
+				<xsd:element ref="premis:eventOutcomeDetail" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:element ref="premis:eventOutcomeDetail" maxOccurs="unbounded"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<!--   
+*******fixityComplexType
+-->
+	<xsd:complexType name="fixityComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:messageDigestAlgorithm"/>
+			<xsd:element ref="premis:messageDigest"/>
+			<xsd:element ref="premis:messageDigestOriginator" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  
+*******formatComplexType
+-->
+	<xsd:complexType name="formatComplexType">
+		<xsd:sequence>
+			<xsd:choice>
+				<!-- one or both of formatDesignation and/or formatRegistry required; followed optionally by formatNote -->
+				<xsd:sequence>
+					<xsd:element ref="premis:formatDesignation"/>
+					<xsd:element ref="premis:formatRegistry" minOccurs="0"/>
+				</xsd:sequence>
+				<xsd:element ref="premis:formatRegistry"/>
+			</xsd:choice>
+			<xsd:element ref="premis:formatNote" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  
+*******formatDesignationComplexType
+-->
+	<xsd:complexType name="formatDesignationComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:formatName"/>
+			<xsd:element ref="premis:formatVersion" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--	  
+*******formatRegistryComplexType
+  -->
+	<xsd:complexType name="formatRegistryComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:formatRegistryName"/>
+			<xsd:element ref="premis:formatRegistryKey"/>
+			<xsd:element ref="premis:formatRegistryRole" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--  
+****************hardwareComplexType
+-->
+	<xsd:complexType name="hardwareComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:hwName"/>
+			<xsd:element ref="premis:hwType"/>
+			<xsd:element ref="premis:hwOtherInformation" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  
+****************inhibitorsComplexType
+-->
+	<xsd:complexType name="inhibitorsComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:inhibitorType"/>
+			<xsd:element ref="premis:inhibitorTarget" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:inhibitorKey" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+******* licenseDocumentationIdentifierComplexType     
+-->
+	<xsd:complexType name="licenseDocumentationIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:licenseDocumentationIdentifierType"/>
+			<xsd:element ref="premis:licenseDocumentationIdentifierValue"/>
+			<xsd:element ref="premis:licenseDocumentationRole" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+******* licenseIdentifierComplexType
+-->
+	<xsd:complexType name="licenseIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:licenseIdentifierType"/>
+			<xsd:element ref="premis:licenseIdentifierValue"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+******* licenseInformationComplexType
+                                   See comment for "creatingApplicationComplexType"
+-->
+	<xsd:complexType name="licenseInformationComplexType">
+		<xsd:choice>
+			<xsd:sequence>
+
+				<xsd:choice>
+					<xsd:element ref="premis:licenseIdentifier"/>
+					<xsd:element ref="premis:licenseDocumentationIdentifier" maxOccurs="unbounded"/>
+
+				</xsd:choice>
+				<!-- -->
+				<xsd:element ref="premis:licenseTerms" minOccurs="0"/>
+				<xsd:element ref="premis:licenseNote" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:licenseApplicableDates" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element ref="premis:licenseTerms"/>
+				<xsd:element ref="premis:licenseNote" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:licenseApplicableDates" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element ref="premis:licenseNote" maxOccurs="unbounded"/>
+				<xsd:element ref="premis:licenseApplicableDates" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:element ref="premis:licenseApplicableDates"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<!--
+******* linkingAgentIdentifierComplexType
+-->
+	<xsd:complexType name="linkingAgentIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:linkingAgentIdentifierType"/>
+			<xsd:element ref="premis:linkingAgentIdentifierValue"/>
+			<xsd:element ref="premis:linkingAgentRole" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="LinkAgentXmlID" type="xsd:IDREF"/>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--  
+****************"linkingEventIdentifierComplexType
+-->
+	<xsd:complexType name="linkingEventIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:linkingEventIdentifierType"/>
+			<xsd:element ref="premis:linkingEventIdentifierValue"/>
+		</xsd:sequence>
+		<xsd:attribute name="LinkEventXmlID" type="xsd:IDREF"/>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--
+*******linkingObjectIdentifierComplexType	
+-->
+	<xsd:complexType name="linkingObjectIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:linkingObjectIdentifierType"/>
+			<xsd:element ref="premis:linkingObjectIdentifierValue"/>
+			<xsd:element ref="premis:linkingObjectRole" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="LinkObjectXmlID" type="xsd:IDREF"/>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--  
+****************linkingIntellectualEntityIdentifierComplexType
+-->
+	<xsd:complexType name="linkingIntellectualEntityIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:linkingIntellectualEntityIdentifierType"/>
+			<xsd:element ref="premis:linkingIntellectualEntityIdentifierValue"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--  
+****************linkingRightsStatementIdentifierComplexType
+-->
+	<xsd:complexType name="linkingRightsStatementIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:linkingRightsStatementIdentifierType"/>
+			<xsd:element ref="premis:linkingRightsStatementIdentifierValue"/>
+		</xsd:sequence>
+		<xsd:attribute name="LinkPermissionStatementXmlID" type="xsd:IDREF"/>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--  
+****************objectCharacteristicsComplexType
+-->
+	<xsd:complexType name="objectCharacteristicsComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:compositionLevel"/>
+			<xsd:element ref="premis:fixity" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:size" minOccurs="0"/>
+			<xsd:element ref="premis:format" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:creatingApplication" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:inhibitors" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:objectCharacteristicsExtension" minOccurs="0"
+				maxOccurs="unbounded"/>
+			<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  	
+*******objectIdentifierComplexType
+-->
+	<xsd:complexType name="objectIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:objectIdentifierType"/>
+			<xsd:element ref="premis:objectIdentifierValue"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--  
+****************originalNameComplexType
+-->
+	<xsd:complexType name="originalNameComplexType">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attributeGroup ref="xlink:simpleLink"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<!--  
+****************otherRightsDocumentationIdentifierComplexType     
+-->
+	<xsd:complexType name="otherRightsDocumentationIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:otherRightsDocumentationIdentifierType"/>
+			<xsd:element ref="premis:otherRightsDocumentationIdentifierValue"/>
+			<xsd:element ref="premis:otherRightsDocumentationRole" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  
+****************otherRightsInformationComplexType     
+-->
+	<xsd:complexType name="otherRightsInformationComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:otherRightsDocumentationIdentifier" minOccurs="0"
+				maxOccurs="unbounded"/>
+			<xsd:element ref="premis:otherRightsBasis"/>
+			<xsd:element ref="premis:otherRightsApplicableDates" minOccurs="0"/>
+			<xsd:element ref="premis:otherRightsNote" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  
+****************preservationLevelComplexType
+-->
+	<xsd:complexType name="preservationLevelComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:preservationLevelValue"/>
+			<xsd:element ref="premis:preservationLevelRole" minOccurs="0"/>
+			<xsd:element ref="premis:preservationLevelRationale" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:preservationLevelDateAssigned" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  
+****************relatedEventIdentificationComplexType
+-->
+	<xsd:complexType name="relatedEventIdentificationComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:relatedEventIdentifierType"/>
+			<xsd:element ref="premis:relatedEventIdentifierValue"/>
+			<xsd:element ref="premis:relatedEventSequence" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="RelEventXmlID" type="xsd:IDREF"/>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--  
+****************relatedObjectIdentificationComplexType
+-->
+	<xsd:complexType name="relatedObjectIdentificationComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:relatedObjectIdentifierType"/>
+			<xsd:element ref="premis:relatedObjectIdentifierValue"/>
+			<xsd:element ref="premis:relatedObjectSequence" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="RelObjectXmlID" type="xsd:IDREF"/>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--  
+****************relationshipComplexType
+-->
+	<xsd:complexType name="relationshipComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:relationshipType"/>
+			<xsd:element ref="premis:relationshipSubType"/>
+			<xsd:element ref="premis:relatedObjectIdentification" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:relatedEventIdentification" minOccurs="0" maxOccurs="unbounded"
+			/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+******** rightsGrantedComplexType
+-->
+	<xsd:complexType name="rightsGrantedComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:act"/>
+			<xsd:element ref="premis:restriction" minOccurs="0" maxOccurs="unbounded"/>
+			<!-- -->
+			<xsd:element ref="premis:termOfGrant" minOccurs="0"/>
+			<xsd:element ref="premis:termOfRestriction" minOccurs="0"/>
+			<!-- -->
+			<xsd:element ref="premis:rightsGrantedNote" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- 	
+******* rightsStatementComplexType
+-->
+	<xsd:complexType name="rightsStatementComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:rightsStatementIdentifier"/>
+			<xsd:element ref="premis:rightsBasis"/>
+			<xsd:element ref="premis:copyrightInformation" minOccurs="0"/>
+			<xsd:element ref="premis:licenseInformation" minOccurs="0"/>
+			<xsd:element ref="premis:statuteInformation" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:otherRightsInformation" minOccurs="0"/>
+			<xsd:element ref="premis:rightsGranted" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:linkingObjectIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:linkingAgentIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+*******rightsStatementIdentifierComplexType
+-->
+	<xsd:complexType name="rightsStatementIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:rightsStatementIdentifierType"/>
+			<xsd:element ref="premis:rightsStatementIdentifierValue"/>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+	</xsd:complexType>
+	<!--  
+****************signatureComplexType
+-->
+	<xsd:complexType name="signatureComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:signatureEncoding"/>
+			<xsd:element ref="premis:signer" minOccurs="0"/>
+			<xsd:element ref="premis:signatureMethod"/>
+			<xsd:element ref="premis:signatureValue"/>
+			<xsd:element ref="premis:signatureValidationRules"/>
+			<xsd:element ref="premis:signatureProperties" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:keyInformation" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  
+****************signatureInformationComplexType
+                                   See comment for "creatingApplicationComplexType"
+-->
+	<xsd:complexType name="signatureInformationComplexType">
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element ref="premis:signature"/>
+				<xsd:element ref="premis:signatureInformationExtension" minOccurs="0"
+					maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="premis:signatureInformationExtension"/>
+				<xsd:element ref="premis:mdSec"/>
+			</xsd:choice>
+		</xsd:choice>
+		<!-- -->
+	</xsd:complexType>
+	<!-- 
+****************significantPropertiesComplexType
+                                   See comment for "creatingApplicationComplexType"
+ -->
+	<xsd:complexType name="significantPropertiesComplexType">
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element ref="premis:significantPropertiesType"/>
+				<xsd:element ref="premis:significantPropertiesValue" minOccurs="0"/>
+				<xsd:element ref="premis:significantPropertiesExtension" minOccurs="0"
+					maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:element ref="premis:significantPropertiesValue"/>
+				<xsd:element ref="premis:significantPropertiesExtension" minOccurs="0"
+					maxOccurs="unbounded"/>
+				<xsd:element ref="premis:mdSec" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<!---->
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element ref="premis:significantPropertiesExtension"/>
+				<xsd:element ref="premis:mdSec"/>
+			</xsd:choice>
+			<!-- -->
+		</xsd:choice>
+	</xsd:complexType>
+	<!--  
+****************softwareComplexType
+-->
+	<xsd:complexType name="softwareComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:swName"/>
+			<xsd:element ref="premis:swVersion" minOccurs="0"/>
+			<xsd:element ref="premis:swType"/>
+			<xsd:element ref="premis:swOtherInformation" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:swDependency" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  
+****************startAndEndDateComplexType     
+-->
+	<xsd:complexType name="startAndEndDateComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:startDate"/>
+			<xsd:element ref="premis:endDate" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+******* statuteDocumentationIdentifierComplexType     
+-->
+	<xsd:complexType name="statuteDocumentationIdentifierComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:statuteDocumentationIdentifierType"/>
+			<xsd:element ref="premis:statuteDocumentationIdentifierValue"/>
+			<xsd:element ref="premis:statuteDocumentationRole" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--
+******* statuteInformationComplexType
+-->
+	<xsd:complexType name="statuteInformationComplexType">
+		<xsd:sequence>
+			<xsd:element ref="premis:statuteJurisdiction"/>
+			<xsd:element ref="premis:statuteCitation"/>
+			<xsd:element ref="premis:statuteInformationDeterminationDate" minOccurs="0"/>
+			<xsd:element ref="premis:statuteNote" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="premis:statuteDocumentationIdentifier" minOccurs="0"
+				maxOccurs="unbounded"/>
+			<xsd:element ref="premis:statuteApplicableDates" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--  
+****************storageComplexType
+                                   See comment for "creatingApplicationComplexType"
+-->
+	<xsd:complexType name="storageComplexType">
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element ref="premis:contentLocation"/>
+				<xsd:element ref="premis:storageMedium" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:element ref="premis:storageMedium"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<!-- 
+********************************************************************************************
+*                                                                                          *
+*                                   Element declarations                                   *
+*                                                                                          *
+********************************************************************************************
+
+****** xsd:string type element declarations
+
+(In version 2.3, 61 elements have been retyped and moved from the following list to the next list, stringPlusAuthority
+and two elements have been retyped and moved to the countryCode list. 
+
+-->
+	<xsd:element name="agentIdentifierValue" type="xsd:string"/>
+	<xsd:element name="agentNote" type="xsd:string"/>
+	<xsd:element name="contentLocationValue" type="xsd:string"/>
+	<xsd:element name="copyrightDocumentationIdentifierValue" type="xsd:string"/>
+	<xsd:element name="copyrightNote" type="xsd:string"/>
+	<xsd:element name="creatingApplicationVersion" type="xsd:string"/>
+	<xsd:element name="dependencyIdentifierValue" type="xsd:string"/>
+	<xsd:element name="environmentNote" type="xsd:string"/>
+	<xsd:element name="eventDetail" type="xsd:string"/>
+	<xsd:element name="eventIdentifierValue" type="xsd:string"/>
+	<xsd:element name="eventOutcomeDetailNote" type="xsd:string"/>
+	<xsd:element name="formatNote" type="xsd:string"/>
+	<xsd:element name="formatVersion" type="xsd:string"/>
+	<xsd:element name="hwOtherInformation" type="xsd:string"/>
+	<xsd:element name="inhibitorKey" type="xsd:string"/>
+	<xsd:element name="licenseDocumentationIdentifierValue" type="xsd:string"/>
+	<xsd:element name="licenseIdentifierValue" type="xsd:string"/>
+	<xsd:element name="licenseNote" type="xsd:string"/>
+	<xsd:element name="licenseTerms" type="xsd:string"/>
+	<xsd:element name="linkingAgentIdentifierValue" type="xsd:string"/>
+	<xsd:element name="linkingEventIdentifierValue" type="xsd:string"/>
+	<xsd:element name="linkingIntellectualEntityIdentifierValue" type="xsd:string"/>
+	<xsd:element name="linkingObjectIdentifierValue" type="xsd:string"/>
+	<xsd:element name="linkingRightsStatementIdentifierValue" type="xsd:string"/>
+	<xsd:element name="messageDigest" type="xsd:string"/>
+	<xsd:element name="objectIdentifierValue" type="xsd:string"/>
+	<xsd:element name="otherRightsDocumentationIdentifierValue" type="xsd:string"/>
+	<xsd:element name="otherRightsNote" type="xsd:string"/>
+	<xsd:element name="preservationLevelRationale" type="xsd:string"/>
+	<xsd:element name="relatedEventIdentifierValue" type="xsd:string"/>
+	<xsd:element name="relatedObjectIdentifierValue" type="xsd:string"/>
+	<xsd:element name="rightsGrantedNote" type="xsd:string"/>
+	<xsd:element name="rightsStatementIdentifierValue" type="xsd:string"/>
+	<xsd:element name="signatureProperties" type="xsd:string"/>
+	<xsd:element name="signatureValue" type="xsd:string"/>
+	<xsd:element name="significantPropertiesValue" type="xsd:string"/>
+	<xsd:element name="statuteDocumentationIdentifierValue" type="xsd:string"/>
+	<xsd:element name="statuteNote" type="xsd:string"/>
+	<xsd:element name="swVersion" type="xsd:string"/>
+	<xsd:element name="swOtherInformation" type="xsd:string"/>
+
+	<!-- 
+
+****** stringPlusAuthority type element declarations
+
+New in 2.3, the following elements have been changed from xsd:string to stringPlusAuthority
+
+-->
+	<xsd:element name="act" type="premis:stringPlusAuthority"/>
+	<xsd:element name="agentIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="agentName" type="premis:stringPlusAuthority"/>
+	<xsd:element name="agentType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="contentLocationType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="copyrightDocumentationIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="copyrightDocumentationRole" type="premis:stringPlusAuthority"/>
+	<xsd:element name="copyrightStatus" type="premis:stringPlusAuthority"/>
+	<xsd:element name="creatingApplicationName" type="premis:stringPlusAuthority"/>
+	<xsd:element name="dependencyIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="dependencyName" type="premis:stringPlusAuthority"/>
+	<xsd:element name="environmentCharacteristic" type="premis:stringPlusAuthority"/>
+	<xsd:element name="environmentPurpose" type="premis:stringPlusAuthority"/>
+	<xsd:element name="eventIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="eventOutcome" type="premis:stringPlusAuthority"/>
+	<xsd:element name="eventType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="formatName" type="premis:stringPlusAuthority"/>
+	<xsd:element name="formatRegistryName" type="premis:stringPlusAuthority"/>
+	<xsd:element name="formatRegistryKey" type="premis:stringPlusAuthority"/>
+	<xsd:element name="formatRegistryRole" type="premis:stringPlusAuthority"/>
+	<xsd:element name="hwName" type="premis:stringPlusAuthority"/>
+	<xsd:element name="hwType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="inhibitorTarget" type="premis:stringPlusAuthority"/>
+	<xsd:element name="inhibitorType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="licenseDocumentationIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="licenseDocumentationRole" type="premis:stringPlusAuthority"/>
+	<xsd:element name="licenseIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="linkingAgentIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="linkingAgentRole" type="premis:stringPlusAuthority"/>
+	<xsd:element name="linkingEventIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="linkingIntellectualEntityIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="linkingObjectIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="linkingObjectRole" type="premis:stringPlusAuthority"/>
+	<xsd:element name="linkingRightsStatementIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="messageDigestAlgorithm" type="premis:stringPlusAuthority"/>
+	<xsd:element name="messageDigestOriginator" type="premis:stringPlusAuthority"/>
+	<xsd:element name="objectIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="otherRightsBasis" type="premis:stringPlusAuthority"/>
+	<xsd:element name="otherRightsDocumentationRole" type="premis:stringPlusAuthority"/>
+	<xsd:element name="otherRightsDocumentationIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="preservationLevelValue" type="premis:stringPlusAuthority"/>
+	<xsd:element name="preservationLevelRole" type="premis:stringPlusAuthority"/>
+	<xsd:element name="relatedEventIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="relatedObjectIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="relationshipType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="relationshipSubType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="restriction" type="premis:stringPlusAuthority"/>
+	<xsd:element name="rightsBasis" type="premis:stringPlusAuthority"/>
+	<xsd:element name="rightsStatementIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="signatureEncoding" type="premis:stringPlusAuthority"/>
+	<xsd:element name="signatureMethod" type="premis:stringPlusAuthority"/>
+	<xsd:element name="signatureValidationRules" type="premis:stringPlusAuthority"/>
+	<xsd:element name="signer" type="premis:stringPlusAuthority"/>
+	<xsd:element name="significantPropertiesType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="storageMedium" type="premis:stringPlusAuthority"/>
+	<xsd:element name="statuteCitation" type="premis:stringPlusAuthority"/>
+	<xsd:element name="statuteDocumentationIdentifierType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="statuteDocumentationRole" type="premis:stringPlusAuthority"/>
+	<xsd:element name="swName" type="premis:stringPlusAuthority"/>
+	<xsd:element name="swType" type="premis:stringPlusAuthority"/>
+	<xsd:element name="swDependency" type="premis:stringPlusAuthority"/>
+	<!-- 
+		
+		****** countryCode type element declarations
+		
+		Type changed in 2.3 from xsd:string to countryCode, for the following
+		
+	-->
+	<xsd:element name="copyrightJurisdiction" type="premis:countryCode"/>
+	<xsd:element name="statuteJurisdiction" type="premis:countryCode"/>
+
+
+	<!-- 
+****** complex  type element declarations
+ 	-->
+	<xsd:element name="agentIdentifier" type="premis:agentIdentifierComplexType"/>
+	<xsd:element name="contentLocation" type="premis:contentLocationComplexType"/>
+	<xsd:element name="copyrightDocumentationIdentifier"
+		type="premis:copyrightDocumentationIdentifierComplexType"/>
+	<xsd:element name="copyrightInformation" type="premis:copyrightInformationComplexType"/>
+	<xsd:element name="creatingApplication" type="premis:creatingApplicationComplexType"/>
+	<xsd:element name="dependency" type="premis:dependencyComplexType"/>
+	<xsd:element name="dependencyIdentifier" type="premis:dependencyIdentifierComplexType"/>
+	<xsd:element name="environment" type="premis:environmentComplexType"/>
+	<xsd:element name="eventIdentifier" type="premis:eventIdentifierComplexType"/>
+	<xsd:element name="eventOutcomeDetail" type="premis:eventOutcomeDetailComplexType"/>
+	<xsd:element name="eventOutcomeInformation" type="premis:eventOutcomeInformationComplexType"/>
+	<xsd:element name="fixity" type="premis:fixityComplexType"/>
+	<xsd:element name="format" type="premis:formatComplexType"/>
+	<xsd:element name="formatDesignation" type="premis:formatDesignationComplexType"/>
+	<xsd:element name="formatRegistry" type="premis:formatRegistryComplexType"/>
+	<xsd:element name="hardware" type="premis:hardwareComplexType"/>
+	<xsd:element name="inhibitors" type="premis:inhibitorsComplexType"/>
+	<xsd:element name="licenseDocumentationIdentifier"
+		type="premis:licenseDocumentationIdentifierComplexType"/>
+	<xsd:element name="licenseIdentifier" type="premis:licenseIdentifierComplexType"/>
+	<xsd:element name="licenseInformation" type="premis:licenseInformationComplexType"/>
+	<xsd:element name="linkingAgentIdentifier" type="premis:linkingAgentIdentifierComplexType"/>
+	<xsd:element name="linkingEventIdentifier" type="premis:linkingEventIdentifierComplexType"/>
+	<xsd:element name="linkingIntellectualEntityIdentifier"
+		type="premis:linkingIntellectualEntityIdentifierComplexType"/>
+	<xsd:element name="linkingObjectIdentifier" type="premis:linkingObjectIdentifierComplexType"/>
+	<xsd:element name="linkingRightsStatementIdentifier"
+		type="premis:linkingRightsStatementIdentifierComplexType"/>
+	<xsd:element name="objectCharacteristics" type="premis:objectCharacteristicsComplexType"/>
+	<xsd:element name="objectIdentifier" type="premis:objectIdentifierComplexType"/>
+	<xsd:element name="originalName" type="premis:originalNameComplexType"/>
+	<xsd:element name="otherRightsDocumentationIdentifier"
+		type="premis:otherRightsDocumentationIdentifierComplexType"/>
+	<xsd:element name="otherRightsInformation" type="premis:otherRightsInformationComplexType"/>
+	<xsd:element name="preservationLevel" type="premis:preservationLevelComplexType"/>
+	<xsd:element name="relatedEventIdentification"
+		type="premis:relatedEventIdentificationComplexType"/>
+	<xsd:element name="relatedObjectIdentification"
+		type="premis:relatedObjectIdentificationComplexType"/>
+	<xsd:element name="relationship" type="premis:relationshipComplexType"/>
+	<xsd:element name="rightsGranted" type="premis:rightsGrantedComplexType"/>
+	<xsd:element name="rightsStatement" type="premis:rightsStatementComplexType"/>
+	<xsd:element name="rightsStatementIdentifier" type="premis:rightsStatementIdentifierComplexType"/>
+	<xsd:element name="signature" type="premis:signatureComplexType"/>
+	<xsd:element name="signatureInformation" type="premis:signatureInformationComplexType"/>
+	<xsd:element name="significantProperties" type="premis:significantPropertiesComplexType"/>
+	<xsd:element name="statuteDocumentationIdentifier"
+		type="premis:statuteDocumentationIdentifierComplexType"/>
+	<xsd:element name="statuteInformation" type="premis:statuteInformationComplexType"/>
+	<xsd:element name="software" type="premis:softwareComplexType"/>
+	<xsd:element name="storage" type="premis:storageComplexType"/>
+	<!-- 
+****** other xs  type  element declarations
+ 	-->
+	<xsd:element name="compositionLevel" type="xsd:nonNegativeInteger"/>
+	<xsd:element name="relatedEventSequence" type="xsd:nonNegativeInteger"/>
+	<xsd:element name="relatedObjectSequence" type="xsd:nonNegativeInteger"/>
+	<xsd:element name="size" type="xsd:long"/>
+	<!-- 
+****** date type  element declarations
+ 	-->
+	<xsd:element name="dateCreatedByApplication" type="premis:edtfSimpleType"/>
+	<xsd:element name="endDate" type="premis:edtfSimpleType"/>
+	<xsd:element name="copyrightApplicableDates" type="premis:startAndEndDateComplexType"/>
+	<xsd:element name="copyrightStatusDeterminationDate" type="premis:edtfSimpleType"/>
+	<xsd:element name="eventDateTime" type="premis:edtfSimpleType"/>
+	<xsd:element name="licenseApplicableDates" type="premis:startAndEndDateComplexType"/>
+	<xsd:element name="preservationLevelDateAssigned" type="premis:edtfSimpleType"/>
+	<xsd:element name="startDate" type="premis:edtfSimpleType"/>
+	<xsd:element name="otherRightsApplicableDates" type="premis:startAndEndDateComplexType"/>
+	<xsd:element name="statuteApplicableDates" type="premis:startAndEndDateComplexType"/>
+	<xsd:element name="statuteInformationDeterminationDate" type="premis:edtfSimpleType"/>
+	<xsd:element name="termOfGrant" type="premis:startAndEndDateComplexType"/>
+	<xsd:element name="termOfRestriction" type="premis:startAndEndDateComplexType"/>
+	<!-- 
+****** extension  type  element declarations
+ 	-->
+	<xsd:element name="agentExtension" type="premis:extensionComplexType"/>
+	<xsd:element name="creatingApplicationExtension" type="premis:extensionComplexType"/>
+	<xsd:element name="environmentExtension" type="premis:extensionComplexType"/>
+	<xsd:element name="eventOutcomeDetailExtension" type="premis:extensionComplexType"/>
+	<xsd:element name="keyInformation" type="premis:extensionComplexType"/>
+	<xsd:element name="objectCharacteristicsExtension" type="premis:extensionComplexType"/>
+	<xsd:element name="rightsExtension" type="premis:extensionComplexType"/>
+	<xsd:element name="signatureInformationExtension" type="premis:extensionComplexType"/>
+	<xsd:element name="significantPropertiesExtension" type="premis:extensionComplexType"/>
+	<!--
+******************************************************************************************************
+************************************ Global Definitions  *******************************************
+******************************************************************************************************
+-->
+	<!--
+************** countryCode definition
+
+Used by copyrightJurisdiction and statuteJurisdiction.  Although typed as stringPlusAuthority, 
+it is recommended that a standard jurisdictional code (such as ISO 3166-1 alpha-2 or alpha-3 country codes) be used, 
+to ensure international uniqueness.  (Note: this does not introduce a substantive change. 
+It is introduced to reinforce this recommendation.)
+-->
+
+	<xsd:complexType name="countryCode">
+		<xsd:simpleContent>
+			<xsd:extension base="premis:stringPlusAuthority"/>
+			<!-- changed from simple to complex type and from  xsd:string to stringPlusAuthority, in version 2.3 -->
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<!--
+************** version definition
+-->
+	<xsd:simpleType name="versionSimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="2.0"/>
+			<xsd:enumeration value="2.1"/>
+			<xsd:enumeration value="2.2"/>
+			<xsd:enumeration value="2.3"/>
+			<!-- 2.3 value added in version 2.3 -->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--  
+****************	extensionComplexType	
+-->
+	<xsd:complexType name="extensionComplexType">
+		<xsd:sequence>
+			<xsd:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- 	
+****************************************************************************************************
+
+                               date/time Definition:  edtfSimpleType 
+                                       Extended Date/Time Format
+
+****************************************************************************************************
+
+edtfSimpleType  is the type used throughout the schema for "date"  and "dateTime" type elements: dateCreatedByApplication, copyrightStatusDeterminationDate, eventDateTime, preservationLevelDateAssigned, statuteInformationDeterminationDate, and others. 
+
+It is based on the edtf specification, and introduced into the PREMIS schema in version 2.0.  However this schema has not keet pace with the development of that spec, which has changed considerably since the release of version 2.0.
+
+edtfSimpleType  is the union of three simple types: xsDate, xsd:dateTime -  and edtfRegularExpressions, as folloiws:
+ -->
+	<xsd:simpleType name="edtfSimpleType">
+		<xsd:union memberTypes="xsd:date"/>
+	</xsd:simpleType>
+	<!-- 
+"xsd:union" (above) means that any string conforming to any one of the types in the union will validate.  xsd:date and xsd:dateTime are built-in W3C schema types.  edtfRegularExpressions is a set of  regular expressions which are described below. So any string that conforms to one of the two built-in types or any of the  regular expressions will validate. 
+
+
+******** edftRegularExpressions
+-->
+	<xsd:simpleType name="edtfRegularExpressions">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\d{2}(\d{2}|\?\?|\d(\d|\?))(-(\d{2}|\?\?))?~?\??"/>
+			<xsd:pattern value="\d{6}(\d{2}|\?\?)~?\??"/>
+			<xsd:pattern value="\d{8}T\d{6}"/>
+			<xsd:pattern value="((\d{4}(-\d{2})?)|UNKNOWN)/((\d{4}(-\d{2})?)|UNKNOWN|OPEN)"/>
+			<xsd:pattern
+				value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?"/>
+			<xsd:pattern value="OPEN"/>
+			<!-- 
+
+The first  pattern: 	
+<xsd:pattern value="\d{2}(\d{2}|\?\?|\d(\d|\?))(-(\d{2}|\?\?))?~?\??"/>,  
+
+is for year (yyyy) or year-month (yyyy-mm).   The last or last two digits of year may be '?'  meaning "one year in that range but not sure which year", for example 19?? means some year from 1990 to 1999.  Similarly month may be '??' so that 2004-?? "means some month in 2004".  And the entire string may end with '?' or '~' for "uncertain" or "approximate".
+Hyphen must separate year and month.
+
+The second pattern:
+			<xsd:pattern value="\d{6}(\d{2}|\?\?)~?\??"/>,
+
+is for  yearMonthDay - yyyymmdd,  where 'dd' may be '??'  so '200412??' means "some day during the month of 12/2004". 
+The whole  string may be followed by '?' or '~'  to mean "questionable" or "approximate".     hyphens are  not allowed for this pattern. 
+
+The Third patten:
+			<xsd:pattern value="\d{8}T\d{6}"/>,
+
+is for  date and time with  T separator:'yyyymmddThhmmss'.  Hyphens in date and colons in time not allowed for this pattern.   
+
+The following pattern:
+			<xsd:pattern value="((\d{4}(-\d{2})?)|UNKNOWN)/((\d{4}(-\d{2})?)|UNKNOWN|OPEN)"/>
+
+is for  a date range.  in years:  'yyyy/yyyy'; or year/month: yyyy-mm/yyyy-mm.    Beginning or end of range value may be 'UNKNOWN'. End of range value may be 'OPEN'.
+hyphens mandatory when month is present. 
+
+The  pattern  ...
+	<xsd:pattern value="\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}((Z|(\+|-)\d{2}:\d{2}))?"></xsd:pattern>
+
+....  supports time zones, e.g.
+
+2010-04-19T22:41:44Z/2010-04-19T22:48:50Z
+Or
+2010-04-19T22:41:44+02:00/2010-04-19T22:48:50+02:00.
+
+The pattern....
+	<xsd:pattern value="OPEN"/>
+accomodate date elements that are structured into startDate and endDate.
+EDTF supports expression of start and end date in a single string (an interval). However, some date elements are still structured into a start and end date, and "OPEN" needs to be supported as an end date. Prior to this version, "OPEN" was valid only within an interval. This allow it to be used as a standalone date. It is intended to be used as such only as the end date of a structured date, but this cannot be enforced.
+
+-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+
+****************************************************************************************************************************************
+****************************************************************************************************************************************
+Following is the definition of the <mdSec> element  (first introcuced in version 2.1).  <mdSec> is offered as an alternative to an extension  element, wherever an extension element occurs. 
+
+                             *********************************************************************************************
+                             *********************************************************************************************
+                             *                                                                                                                  *
+                             *                                          <mdSec> element                                             *
+                             *                                                                                                                  *
+                             *                                                                                                                  *
+                             *********************************************************************************************
+                            *********************************************************************************************                        
+-->
+	<xsd:element name="mdSec" type="premis:mdSecDefinition"/>
+	<!--
+
+************ mdSecDefinition
+
+<mdSec> is a generalization of several METS metadata type elements: <dmdSec>, <amdSec>, etc. all of METS 
+type "mdSecType".  PREMIS generalized these into a single element because it does not distinguish between 
+these different types of metadata (e.g. administrative vs. descriptive). 
+ 
+<mdSec>  includes one or both of <mdRef> and <mdWrap>, a reference to external metadata and a wrapper of 
+internal metadata, respectively. <mdRef> is an empty element with a link (an attribute) to external metadata.  
+<mdWrap> includes the metadata, either as <xmlData> or <binData>.
+
+-->
+	<xsd:complexType name="mdSecDefinition">
+		<xsd:all>
+			<xsd:element ref="premis:mdRef" minOccurs="0"/>
+			<xsd:element ref="premis:mdWrap" minOccurs="0"/>
+		</xsd:all>
+		<xsd:attribute name="ID" type="xsd:ID" use="required"/>
+		<xsd:attribute name="GROUPID" type="xsd:string"/>
+		<xsd:attribute name="ADMID" type="xsd:IDREFS"/>
+		<xsd:attribute name="CREATED" type="premis:edtfSimpleType"/>
+		<xsd:attribute name="STATUS" type="xsd:string"/>
+	</xsd:complexType>
+	<!--
+
+************ mdRefDefinition
+<mdRef> (metadata reference)  is an empty element providing pointers (via xlink and XPTR attributes) to metadata outside the PREMIS document.  
+-->
+	<xsd:complexType name="mdRefDefinition">
+		<xsd:attribute name="ID" type="xsd:ID"/>
+		<xsd:attribute name="LOCTYPE" type="premis:LOCTYPEDefinition" use="required"/>
+		<xsd:attribute name="OTHERLOCTYPE" type="xsd:string"/>
+		<xsd:attributeGroup ref="xlink:simpleLink"/>
+		<xsd:attributeGroup ref="premis:metadataAttributeGroup"/>
+		<xsd:attributeGroup ref="premis:filecoreAttributeGroup"/>
+		<xsd:attribute name="LABEL" type="xsd:string"/>
+		<xsd:attribute name="XPTR" type="xsd:string"/>
+		<!-- -->
+		<!-- 
+         <LOCTYPE> must be supplied, and its value may be "other"
+         in which case <OTHERLOCTYPE> should be supplied.
+-->
+	</xsd:complexType>
+	<!-- 
+********* mdWrapDefinition
+-->
+	<xsd:complexType name="mdWrapDefinition">
+		<xsd:choice>
+			<xsd:element ref="premis:binData" minOccurs="0"/>
+			<xsd:element ref="premis:xmlData" minOccurs="0"/>
+		</xsd:choice>
+		<xsd:attribute name="ID" type="xsd:ID"/>
+		<xsd:attributeGroup ref="premis:metadataAttributeGroup"/>
+		<xsd:attributeGroup ref="premis:filecoreAttributeGroup"/>
+		<xsd:attribute name="LABEL" type="xsd:string"/>
+		<!--
+						<mdWrap> (metadata wrapper) wraps metadata in one of the following forms: 
+1) XML-encoded (belonging to any namespace) wrapped in an <xmlData>  element. . 
+2) Arbitrary Base64 encoded  wrapped in a <binData>  element. 
+-->
+	</xsd:complexType>
+	<!-- 
+xmlDataDefinition 
+-->
+	<xsd:complexType name="xmlDataDefinition">
+		<xsd:sequence>
+			<xsd:any namespace="##any" processContents="lax" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- 
+MDTYPEDefinition
+-->
+	<xsd:simpleType name="MDTYPEDefinition">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="MIX"/>
+			<xsd:enumeration value="LC-VIDEO"/>
+			<xsd:enumeration value="LC-AUDIO"/>
+			<xsd:enumeration value="TEXTMD"/>
+			<xsd:enumeration value="METSRIGHTS"/>
+			<xsd:enumeration value="CDLCopyright"/>
+			<xsd:enumeration value="XMLSignature"/>
+			<xsd:enumeration value="OTHER"/>
+		</xsd:restriction>
+		<!-- this list of values differs from the list in METS -->
+	</xsd:simpleType>
+	<!--
+LOCTYPEDefinition
+-->
+	<xsd:simpleType name="LOCTYPEDefinition">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ARK"/>
+			<xsd:enumeration value="URN"/>
+			<xsd:enumeration value="URL"/>
+			<xsd:enumeration value="PURL"/>
+			<xsd:enumeration value="HANDLE"/>
+			<xsd:enumeration value="DOI"/>
+			<xsd:enumeration value="OTHER"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+CHECKSUMTYPEDefinition
+-->
+	<xsd:simpleType name="CHECKSUMTYPEDefinition">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Adler-32"/>
+			<xsd:enumeration value="CRC32"/>
+			<xsd:enumeration value="HAVAL"/>
+			<xsd:enumeration value="MD5"/>
+			<xsd:enumeration value="MNP"/>
+			<xsd:enumeration value="SHA-1"/>
+			<xsd:enumeration value="SHA-256"/>
+			<xsd:enumeration value="SHA-384"/>
+			<xsd:enumeration value="SHA-512"/>
+			<xsd:enumeration value="TIGER"/>
+			<xsd:enumeration value="WHIRLPOOL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<!--
+*************** attribute group definitions
+-->
+	<!--
+
+**** metadataAttributeGroup
+-->
+	<xsd:attributeGroup name="metadataAttributeGroup">
+		<xsd:attribute name="MDTYPE" type="premis:MDTYPEDefinition" use="required"/>
+		<xsd:attribute name="OTHERMDTYPE" type="xsd:string"/>
+		<xsd:attribute name="MDTYPEVERSION" type="xsd:string"/>
+	</xsd:attributeGroup>
+	<!--
+
+**** filecoreAttributeGroup
+-->
+	<xsd:attributeGroup name="filecoreAttributeGroup">
+		<xsd:attribute name="MIMETYPE" type="xsd:string"/>
+		<xsd:attribute name="SIZE" type="xsd:long"/>
+		<xsd:attribute name="CREATED" type="premis:edtfSimpleType"/>
+		<xsd:attribute name="CHECKSUM" type="xsd:string"/>
+		<xsd:attribute name="CHECKSUMTYPE" type="premis:CHECKSUMTYPEDefinition"/>
+	</xsd:attributeGroup>
+	<!-- 
+Element Declarations 
+-->
+	<xsd:element name="binData" type="xsd:base64Binary"/>
+	<xsd:element name="mdRef" type="premis:mdRefDefinition"/>
+	<xsd:element name="mdWrap" type="premis:mdWrapDefinition"/>
+	<xsd:element name="xmlData" type="premis:xmlDataDefinition"/>
+
+
+
+	<!-- 	
+		****************************************************************************************************
+		
+		********** authorityAttributeGroup   ********** 
+		
+		       and 
+		       
+		       ********** stringPlusAuthority   **********
+		       
+		added in version 2.3
+		
+		****************************************************************************************************
+	-->
+	<xsd:attributeGroup name="authorityAttributeGroup">
+		<xsd:attribute name="authority" type="xsd:string"/>
+		<xsd:attribute name="authorityURI" type="xsd:anyURI"/>
+		<xsd:attribute name="valueURI" type="xsd:anyURI"/>
+	</xsd:attributeGroup>
+	<!--
+		************************* stringPlusAuthority  *************************     	
+	-->
+	<xsd:complexType name="stringPlusAuthority">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attributeGroup ref="premis:authorityAttributeGroup"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<!-- -->
+</xsd:schema>

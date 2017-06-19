@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kcMETSCollection xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns="http://www.loc.gov/METS/"
+ xmlns:cdwa="http://www.getty.edu/CDWA/CDWALite"
+ xmlns:premis="info:lc/xmlns/premis-v2"
+ xmlns:mix="http://www.loc.gov/mix/v20"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.loc.gov/METS/ file:colhtk_metsAP.xsd">
+    <kcmets>        
+            <metsHdr ID="kcmh01" CREATEDATE="2015-12-05T12:00:00" LASTMODDATE="2015-12-05T12:00:00">
+                <agent ROLE="CREATOR" TYPE="INDIVIDUAL" ID="crid01">
+                    <name>Kelly Colht</name>
+                    <note>Records created as part of an assignment for INFX 543, Autumn 2015.</note>
+                </agent>
+                <altRecordID TYPE="LCCN" ID="LC-USF34-025363-D">LC-USF34-025363-D</altRecordID>
+            </metsHdr>
+            <dmdSec ID="kcdmr01">
+            <mdRef LOCTYPE="URL" MDTYPE="MARC"
+                xlink:href="http://www.loc.gov/pictures/item/fsa2000006962/PP/marc/"/>
+            <mdWrap MDTYPE="OTHER" OTHERMDTYPE="CDWA Lite" LABEL="Sewing a quilt. Gees Bend, Alabama">
+                <xmlData>                    
+                    <cdwa:descriptiveMetadata>                        
+                        <cdwa:objectWorkTypeWrap>
+                            <cdwa:objectWorkType cdwa:termsource="AAT" cdwa:termsourceID="300128343">black-and-white negative</cdwa:objectWorkType>
+                            <cdwa:objectWorkType cdwa:termsource="AAT" cdwa:termsourceID="300215302">digital image</cdwa:objectWorkType>
+                        </cdwa:objectWorkTypeWrap>
+                        <cdwa:titleWrap>
+                            <cdwa:titleSet>
+                                <cdwa:title cdwa:pref="preferred" cdwa:lang="eng" cdwa:langtermsource="ISO 639-2b">Sewing a quilt. Gees Bend, Alabama</cdwa:title>
+                                <cdwa:sourceTitle>Title and other information from caption card.</cdwa:sourceTitle>
+                            </cdwa:titleSet>
+                            <cdwa:titleSet>
+                                <cdwa:title cdwa:pref="alternate" cdwa:lang="eng" cdwa:langtermsource="ISO 639-2b">Jennie Pettway and another girl with the quilter Jorena Pettway</cdwa:title>
+                                <cdwa:sourceTitle>From Documenting America, 1935-1943 / edited by Carl Fleischhauer and Beverly W. Brannan. Berkeley: University of California Press in association with the Library of Congress, 1988, p. 152.
+                                </cdwa:sourceTitle>
+                            </cdwa:titleSet>
+                        </cdwa:titleWrap>    
+                        <cdwa:displayCreator>Rothstein, Arthur, 1915-1985, photographer </cdwa:displayCreator>
+                        <cdwa:indexingCreatorWrap>
+                            <cdwa:indexingCreatorSet>
+                                <cdwa:nameCreatorSet>
+                                    <cdwa:nameCreator cdwa:termsource="ULAN" cdwa:type="personalName" cdwa:termsourceID="500004799">Rothstein, Arthur
+                                    </cdwa:nameCreator>
+                                </cdwa:nameCreatorSet>
+                                <cdwa:nationalityCreator>American</cdwa:nationalityCreator>
+                                <cdwa:vitalDatesCreator cdwa:birthDate="1915" cdwa:deathDate="1985">1915-1985</cdwa:vitalDatesCreator>
+                                <cdwa:genderCreator>male</cdwa:genderCreator>
+                                <cdwa:roleCreator cdwa:termsource="AAT" cdwa:termsourceID="300025687">photographer</cdwa:roleCreator>
+                            </cdwa:indexingCreatorSet>
+                        </cdwa:indexingCreatorWrap>
+                        <cdwa:displayMeasurements>3 1/4 x 4 1/4 inches or smaller.</cdwa:displayMeasurements>
+                        <cdwa:indexingMeasurementsWrap>
+                            <cdwa:indexingMeasurementsSet>
+                                <cdwa:measurementsSet cdwa:unit="in" cdwa:type="height" cdwa:value="3 1/4"/>
+                                <cdwa:measurementsSet cdwa:unit="in" cdwa:type="width" cdwa:value="4 1/4"/>
+                                <cdwa:qualifierMeasurements>measurements are approximate</cdwa:qualifierMeasurements>
+                            </cdwa:indexingMeasurementsSet>
+                        </cdwa:indexingMeasurementsWrap>
+                        <cdwa:displayMaterialsTech>Nitrate negatives</cdwa:displayMaterialsTech>    
+                        <cdwa:indexingMaterialsTechWrap>
+                            <cdwa:indexingMaterialsTechSet cdwa:type="medium">
+                                <cdwa:termMaterialsTech cdwa:termsource="free text">Nitrate negatives</cdwa:termMaterialsTech>
+                            </cdwa:indexingMaterialsTechSet>
+                        </cdwa:indexingMaterialsTechWrap>
+                        <cdwa:styleWrap>
+                            <cdwa:style cdwa:termsource="AAT" cdwa:termsourceID="300134547">documentary photography</cdwa:style>
+                        </cdwa:styleWrap>
+                        <cdwa:cultureWrap>
+                            <cdwa:culture cdwa:termsource="AAT" cdwa:termsourceID="300107956">American (North American)</cdwa:culture>
+                        </cdwa:cultureWrap>
+                        <cdwa:displayCreationDate>1937 Apr.</cdwa:displayCreationDate>
+                        <cdwa:indexingDatesWrap>
+                            <cdwa:indexingDatesSet>
+                                <cdwa:earliestDate>1937</cdwa:earliestDate>
+                                <cdwa:latestDate>1937</cdwa:latestDate>
+                            </cdwa:indexingDatesSet>
+                        </cdwa:indexingDatesWrap>
+                        <cdwa:locationWrap>
+                            <cdwa:locationSet>
+                                <cdwa:locationName cdwa:type="currentRepository" cdwa:termsource="LC Name Authority File" cdwa:locID="n79055161"
+                                    cdwa:locIDtype="corporateName">Library of Congress Prints and Photographs Division (Washington, DC)</cdwa:locationName>
+                                <cdwa:workID cdwa:type="LOC Call Number">LC-USF34- 025363-D</cdwa:workID>
+                                <cdwa:workID cdwa:type="other">E 4628</cdwa:workID>
+                            </cdwa:locationSet>
+                            <cdwa:locationSet>
+                                <cdwa:locationName cdwa:type="formerLocation">United States. Office of War Information. Overseas Picture Division. Washington Division; 1944.</cdwa:locationName>
+                            </cdwa:locationSet>
+                        </cdwa:locationWrap>      
+                        <cdwa:indexingSubjectWrap>
+                            <cdwa:indexingSubjectSet cdwa:type="description">
+                                <cdwa:subjectTerm cdwa:type="conceptTerm" cdwa:termsource="AAT" cdwa:termsourceID="300053656">quilting</cdwa:subjectTerm>
+                                <cdwa:subjectTerm cdwa:type="locationTerm" cdwa:termsource="LCSH" cdwa:termsourceID="United States--Alabama--Wilcox County--Gees Bend.">United States--Alabama--Wilcox County--Gees Bend.</cdwa:subjectTerm>
+                                <cdwa:subjectTerm cdwa:type="conceptTerm" cdwa:termsource="AAT" cdwa:termsourceID="300128347">black-and-white photograph</cdwa:subjectTerm>
+                                <cdwa:subjectTerm cdwa:type="locationTerm" cdwa:termsource="LCSH" cdwa:termsourceID="Gees Bend--Alabama.">Gees Bend--Alabama.</cdwa:subjectTerm>
+                            </cdwa:indexingSubjectSet>        
+                        </cdwa:indexingSubjectWrap>    
+                        <cdwa:classWrap>
+                            <cdwa:classification cdwa:termsource="AAT" cdwa:termsourceID="300128347">black-and-white photography</cdwa:classification>
+                            <cdwa:classification cdwa:termsource="AAT" cdwa:termsourceID="300134547">documentary photography</cdwa:classification>            
+                        </cdwa:classWrap>      
+                        <cdwa:descriptiveNoteWrap>
+                            <cdwa:descriptiveNoteSet>
+                                <cdwa:descriptiveNote>Part of the Farm Security Administration - Office of War Information Photograph Collection. More information about the FSA/OWI Collection is available at http://hdl.loc.gov/loc.pnp/pp.fsaowi.
+                                </cdwa:descriptiveNote>
+                                <cdwa:sourceDescriptiveNote>http://www.loc.gov/pictures/item/fsa2000006962/PP/</cdwa:sourceDescriptiveNote>
+                            </cdwa:descriptiveNoteSet>
+                        </cdwa:descriptiveNoteWrap>                   
+                    </cdwa:descriptiveMetadata>
+                </xmlData>
+            </mdWrap>
+        </dmdSec>
+        <amdSec ID="kcamd01">
+            <techMD ID="kctmd01">
+                <mdWrap MDTYPE="NISOIMG">
+                    <xmlData>
+                        <mix:kcMIX>                           
+                                <mix:BasicDigitalObjectInformation>            
+                                    <mix:ObjectIdentifier>
+                                        <mix:objectIdentifierType>Reproduction number</mix:objectIdentifierType>
+                                        <mix:objectIdentifierValue>LC-DIG-ppmsca-31901</mix:objectIdentifierValue>
+                                    </mix:ObjectIdentifier>
+                                    <mix:fileSize>30900</mix:fileSize>
+                                    <mix:FormatDesignation>
+                                        <mix:formatName>TIFF</mix:formatName>
+                                        <mix:formatVersion>6.0</mix:formatVersion>
+                                    </mix:FormatDesignation>
+                                    <mix:FormatRegistry>
+                                        <mix:formatRegistryName>Adobe Systems</mix:formatRegistryName>
+                                        <mix:formatRegistryKey>info:gdfr/fred/tiff, TIFF/6.0.</mix:formatRegistryKey>
+                                    </mix:FormatRegistry>
+                                </mix:BasicDigitalObjectInformation>
+                                <mix:BasicImageInformation>
+                                    <mix:BasicImageCharacteristics>
+                                        <mix:imageWidth>3786</mix:imageWidth>
+                                        <mix:imageHeight>2851</mix:imageHeight>
+                                    </mix:BasicImageCharacteristics>            
+                                </mix:BasicImageInformation>                            
+                            </mix:kcMIX>
+                    </xmlData>
+                </mdWrap>
+            </techMD>         
+            <rightsMD ID="kcrimdw01">                
+                <mdWrap MDTYPE="PREMIS">
+                <xmlData>                    
+                    <premis:rightsStatement>
+                        <premis:rightsStatementIdentifier>
+                            <premis:rightsStatementIdentifierType/>
+                            <premis:rightsStatementIdentifierValue>No known restrictions. For information, see U.S. Farm Security Administration/Office of War Information Black and White Photographs
+                            </premis:rightsStatementIdentifierValue>
+                        </premis:rightsStatementIdentifier>
+                        <premis:rightsBasis/>
+                    </premis:rightsStatement>
+                </xmlData>
+            </mdWrap>
+            </rightsMD>
+        </amdSec>        
+        <fileSec>
+            <fileGrp USE="image/master">
+                <file ID="kcim01-1" MIMETYPE="image/tiff">
+                    <FLocat LOCTYPE="URL"
+                        xlink:href="http://cdn.loc.gov/master/pnp/ppmsca/31900/31901u.tif"/>
+                </file>
+            </fileGrp>
+            <fileGrp USE="image/thumbnail">
+                <file ID="kcfile02" MIMETYPE="image/jpeg">
+                    <FLocat LOCTYPE="URL"
+                        xlink:href="http://cdn.loc.gov/service/pnp/ppmsca/31900/31901_150px.jpg"/>
+                </file>
+            </fileGrp>
+            <fileGrp USE="image/reference">
+                <file ID="kcfile03" MIMETYPE="image/jpeg">
+                    <FLocat LOCTYPE="URL"
+                        xlink:href="http://cdn.loc.gov/service/pnp/ppmsca/31900/31901v.jpg"/>
+                </file>
+            </fileGrp>
+        </fileSec>
+        <structMap>
+            <div TYPE="still image" LABEL="Sewing a quilt. Gees Bend, Alabama"
+                ADMID="kcamd01" DMDID="kcdmr01">
+                <fptr FILEID="kcim01-1"/>
+                <fptr FILEID="kcfile02"/>
+                <fptr FILEID="kcfile03"/>
+            </div>
+        </structMap> 
+    </kcmets>
+</kcMETSCollection>
